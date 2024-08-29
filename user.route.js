@@ -49,4 +49,31 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+//update section
+router.put('/:id', async (req, res) => {
+    try {
+        let newData = req.body;
+        if (newData.socialMedia !== 0) {
+            const oldData = await userModel.findById(req.params.id);
+            newData.socialMedia = {
+                ...oldData.socialMedia,
+                ...newData.socialMedia
+            }
+        }
+        
+        const result = await userModel.updateOne(
+            { _id: req.params.id },
+            { $set: req.body});
+        console.log(result)
+        res.status(201).json({
+            message: 'Berhasil ubah data',
+            data: result
+        })
+    } catch (error) {
+        res.status(400).json({
+            message: "Not Found"
+        })
+    }
+})
+
 module.exports = router;
