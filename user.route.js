@@ -63,7 +63,8 @@ router.put('/:id', async (req, res) => {
         
         const result = await userModel.updateOne(
             { _id: req.params.id },
-            { $set: req.body});
+            { $set: req.body}
+        )
         console.log(result)
         res.status(201).json({
             message: 'Berhasil ubah data',
@@ -76,5 +77,22 @@ router.put('/:id', async (req, res) => {
     }
 })
 
+//delete section
+router.delete('/:id', async (req, res) => {
+    try {
+        const result = await userModel.deleteOne(
+            { _id: req.params.id },
+        )
+        console.log(result)
+        res.status(201).json({
+            message: 'Berhasil hapus data',
+            data: result
+        })
+    } catch (error) {
+        res.status(400).json({
+            message: "Not Found"
+        })
+    }
+})
 
 module.exports = router;
